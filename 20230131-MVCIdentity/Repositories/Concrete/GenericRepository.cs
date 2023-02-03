@@ -12,14 +12,22 @@ namespace _20230131_MVCIdentity.Repositories.Concrete
             this.db = db;
         }
 
+        public List<T> ListAll()
+        {
+            return db.Set<T>().ToList();
+        }
+
         bool IRepository<T>.Add(T entity)
         {
-            throw new NotImplementedException();
+            db.Add(entity);
+            return db.SaveChanges()>0;
         }
 
         bool IRepository<T>.Delete(T entity)
         {
-            throw new NotImplementedException();
+            db.Remove(entity);
+            return db.SaveChanges() > 0;
+
         }
 
         IEnumerable<T> IRepository<T>.GetAll()
@@ -29,7 +37,7 @@ namespace _20230131_MVCIdentity.Repositories.Concrete
 
         T IRepository<T>.GetById(int id)
         {
-            throw new NotImplementedException();
+            return db.Set<T>().Find(id);
         }
 
         IEnumerable<T> IRepository<T>.GetWhere(Expression<Func<T, bool>> predicate)
@@ -44,7 +52,8 @@ namespace _20230131_MVCIdentity.Repositories.Concrete
 
         bool IRepository<T>.Update(T entity)
         {
-            throw new NotImplementedException();
+            db.Update(entity);
+            return db.SaveChanges() > 0;
         }
     }
 }

@@ -11,5 +11,6 @@ namespace _20230131_MVCIdentity.Repositories.Abstract
         bool Delete(T entity);
         IEnumerable<T> GetWhere(Expression<Func<T, bool>> predicate);
         T SingleOrDefault(Expression<Func<T, bool>> predicate);
+        List<T> ListAll();
     }
 }
