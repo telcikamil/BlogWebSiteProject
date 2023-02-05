@@ -12,7 +12,12 @@ namespace _20230131_MVCIdentity.Repositories.Concrete
             this.db = db;
         }
 
-        public List<T> ListAll()
+		public List<T> ListAll(Expression<Func<T, bool>> filter)
+		{
+			return db.Set<T>().Where(filter).ToList();
+		}
+
+		public List<T> ListAll()
         {
             return db.Set<T>().ToList();
         }

@@ -12,7 +12,6 @@ namespace _20230131_MVCIdentity.Repositories.Abstract
         IEnumerable<T> GetWhere(Expression<Func<T, bool>> predicate);
         T SingleOrDefault(Expression<Func<T, bool>> predicate);
         List<T> ListAll();
-
-        
+        List<T> ListAll(Expression<Func<T, bool>> filter);
     }
 }

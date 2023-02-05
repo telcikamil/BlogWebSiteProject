@@ -1,44 +1,20 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@*@using _20230131_MVCIdentity.Areas.Identity.Data*@
+@using _20230131_MVCIdentity.Areas.Identity.Data
 
-@*@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager*@
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
 <ul class="navbar-nav">
-@*@if (SignInManager.IsSignedIn(User))*@
+@if (SignInManager.IsSignedIn(User))
 {
-@*    <li class="nav-item">
+    <li class="nav-item">
         <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-    </li>*@
+    </li>
     <li class="nav-item">
         <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
             <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button>
         </form>
     </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Articles" asp-action="Index">Articles</a>
-        </li>
-        <li class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" id="subjectbutton" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Subjects
-            </button>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-            @*                            <a class="nav-link text-dark" asp-area="" asp-controller="Subjects" asp-action="Index">Subjects</a>*@
-        </li>
-        <li class="nav-item">
-            <button type="button" class="btn btn-outline-info">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                </svg>
-                <a class="nav-link text-dark" asp-area="" asp-controller="Articles" asp-action="Create"></a>
-            </button>
-
-        </li>
 }
 else
 {

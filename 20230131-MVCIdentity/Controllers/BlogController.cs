@@ -15,5 +15,10 @@ namespace _20230131_MVCIdentity.Controllers
             var values = blogRepository.ListAll();
             return View(values);
         }
+        public IActionResult BlogDetails(int id)
+        {
+            var values = blogRepository.GetBlogById(id);
+            return View(values);
+        }
     }
 }

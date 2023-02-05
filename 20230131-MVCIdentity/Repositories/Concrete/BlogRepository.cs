@@ -17,5 +17,6 @@ namespace _20230131_MVCIdentity.Repositories.Concrete
 			return db.articles.Include(s=>s.Categories);
 		}
 
+		
 	}
 }
