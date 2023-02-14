@@ -37,7 +37,7 @@ namespace _20230131_MVCIdentity.Repositories.Concrete
 
         IEnumerable<T> IRepository<T>.GetAll()
         {
-            throw new NotImplementedException();
+            return db.Set<T>();
         }
 
         T IRepository<T>.GetById(int id)
