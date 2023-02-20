@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using _20230131_MVCIdentity.Areas.Identity.Data;
+using _20230131_MVCIdentity.Repositories.Abstract;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -17,13 +18,19 @@ namespace _20230131_MVCIdentity.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly IUserRepository userRepository;
 
         public IndexModel(
             UserManager<User> userManager,
-            SignInManager<User> signInManager)
+            SignInManager<User> signInManager,
+            IWebHostEnvironment webHostEnvironment,
+            IUserRepository userRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            this.webHostEnvironment = webHostEnvironment;
+            this.userRepository = userRepository;
         }
 
         /// <summary>
@@ -32,6 +39,8 @@ namespace _20230131_MVCIdentity.Areas.Identity.Pages.Account.Manage
         /// </summary>
         public string ImagePath { get; set; }
         public string Username { get; set; }
+        public string Job { get; set; }
+
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -60,15 +69,18 @@ namespace _20230131_MVCIdentity.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+            public string Job { get; set; }
+            public IFormFile Image { get; set; }
         }
 
         private async Task LoadAsync(User user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-
             Username = userName;
             ImagePath = user.FilePath;
+            Job = user.Job;
+
 
             Input = new InputModel
             {
@@ -101,7 +113,11 @@ namespace _20230131_MVCIdentity.Areas.Identity.Pages.Account.Manage
                 await LoadAsync(user);
                 return Page();
             }
-
+            if (Input.Job != null)
+            {
+                user.Job = Input.Job;
+            }
+            
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             if (Input.PhoneNumber != phoneNumber)
             {
@@ -112,7 +128,21 @@ namespace _20230131_MVCIdentity.Areas.Identity.Pages.Account.Manage
                     return RedirectToPage();
                 }
             }
+            if (Input.Image != null)
+            {
+                string uniqueFileName = null;
 
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + Input.Image.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    Input.Image.CopyTo(fileStream);
+                }
+                user.FilePath = "/images/" + uniqueFileName;
+            }
+
+            userRepository.Update(user);
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();

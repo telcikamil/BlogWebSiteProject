@@ -11,7 +11,9 @@ namespace _20230131_MVCIdentity.Models
         public string Job { get; set; }
         public string imagePath { get; set; }
         public string currentId { get; set; }
-
+        public string email { get; set; }
+        public string job { get; set; }
+        public string Phone { get; set; }
         public int articleId { get; set; }
         public IEnumerable<Article> Articles { get; set; }
         public IEnumerable<Category> Categories { get; set; }
