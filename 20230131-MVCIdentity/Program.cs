@@ -13,6 +13,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 builder.Services.AddTransient(typeof(IRepository<>), typeof(GenericRepository<>));
 builder.Services.AddTransient<IBlogRepository, BlogRepository>();
 builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
 //builder.Services.AddTransient<IApplicationUserRepository, ApplicationUserRepository>();
 
 var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");

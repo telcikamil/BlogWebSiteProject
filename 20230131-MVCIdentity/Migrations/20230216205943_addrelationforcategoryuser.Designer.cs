@@ -12,8 +12,8 @@ using _20230131_MVCIdentity.Areas.Identity.Data;
 namespace _20230131_MVCIdentity.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230207134324_init")]
-    partial class init
+    [Migration("20230216205943_addrelationforcategoryuser")]
+    partial class addrelationforcategoryuser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,7 +36,7 @@ namespace _20230131_MVCIdentity.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreationDate")
+                    b.Property<DateTime?>("CreationDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
@@ -44,12 +44,13 @@ namespace _20230131_MVCIdentity.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("ViewCount")
+                    b.Property<int?>("ViewCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("ViewTime")
+                    b.Property<int?>("ViewTime")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -156,9 +157,9 @@ namespace _20230131_MVCIdentity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e666558d-13c9-4d76-8d2c-6d7cfe201598",
+                            Id = "1f58caf7-5645-4b81-bd15-be8d9c4c85fe",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "04952cb2-8d01-452e-9506-147ec28ca4c3",
+                            ConcurrencyStamp = "01fc71de-10e8-46f2-a688-8498d8c3b281",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
@@ -166,17 +167,17 @@ namespace _20230131_MVCIdentity.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPscyp3OS13iHrr01UI0gj456MlPwlW+0MGIvhxDtPSeNHm3qroPX6Nzcgs8jnXAvw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENpVecixFfbGE8Bmygis13qU1KBjxWJn/bi3VPIz4W+poCzBTHuCMFlVKeUHvRkO9g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3792c8ea-32b3-4499-af13-6cde8c6b4669",
+                            SecurityStamp = "a8ac61c4-44d6-49cc-83dc-b1c1c9c19f6d",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         },
                         new
                         {
-                            Id = "dd3fc3fe-714f-4139-9ab0-348669e6b4f9",
+                            Id = "b133c02b-5b07-48ce-95d0-73cffd739232",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "dbe6b806-ba8d-4a93-8e83-10f15bdf5b51",
+                            ConcurrencyStamp = "f37c1ad4-6a12-431e-be9a-667d493ccbdb",
                             Email = "standard@standard.com",
                             EmailConfirmed = true,
                             FirstName = "Standard",
@@ -184,9 +185,9 @@ namespace _20230131_MVCIdentity.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "STANDARD@STANDARD.COM",
                             NormalizedUserName = "STANDARD@STANDARD.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAENACEcQ3xgKIcKRqNHZXVeHdhohWaAc7IWJuicoyVrCtqnsQLaakIuvRqJ5rYg29Ig==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOOYS2EYrfUhiVV2joQa/XcJUBzz9JFMnUikHv/rOU55zqcvFeK5AA0VY31J/QD0JQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "575fef13-4695-4bfc-9edc-00d5ccde34c3",
+                            SecurityStamp = "3ac1fe26-ba2b-49f1-8322-a5981efc5467",
                             TwoFactorEnabled = false,
                             UserName = "standard@standard.com"
                         });
@@ -205,6 +206,21 @@ namespace _20230131_MVCIdentity.Migrations
                     b.HasIndex("CategoriesId");
 
                     b.ToTable("ArticleCategory");
+                });
+
+            modelBuilder.Entity("CategoryUser", b =>
+                {
+                    b.Property<int>("CategoriesId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("CategoriesId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("CategoryUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -236,15 +252,15 @@ namespace _20230131_MVCIdentity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "463abc9b-8ed1-446f-bb70-9e3f9a8275c5",
-                            ConcurrencyStamp = "fdde9fdc-334b-47a3-86f7-6afce2bc7671",
+                            Id = "4d0d0b7c-3cfb-4f0d-a393-9abe29fdbb79",
+                            ConcurrencyStamp = "beea6f3e-1354-49b8-889c-587748423705",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "b68078a7-3d6f-4dfd-b815-559dd298c38e",
-                            ConcurrencyStamp = "390362e6-a1eb-4c5b-91ee-9fbf1cb59787",
+                            Id = "611117af-184c-42f7-b829-eb34d4cd8cbe",
+                            ConcurrencyStamp = "82f83dd2-3763-4ee7-a39b-910f75a33fe1",
                             Name = "Standard",
                             NormalizedName = "STANDARD"
                         });
@@ -305,7 +321,7 @@ namespace _20230131_MVCIdentity.Migrations
                             Id = 1,
                             ClaimType = "IsAdmin",
                             ClaimValue = "true",
-                            UserId = "e666558d-13c9-4d76-8d2c-6d7cfe201598"
+                            UserId = "1f58caf7-5645-4b81-bd15-be8d9c4c85fe"
                         });
                 });
 
@@ -350,13 +366,13 @@ namespace _20230131_MVCIdentity.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "e666558d-13c9-4d76-8d2c-6d7cfe201598",
-                            RoleId = "463abc9b-8ed1-446f-bb70-9e3f9a8275c5"
+                            UserId = "1f58caf7-5645-4b81-bd15-be8d9c4c85fe",
+                            RoleId = "4d0d0b7c-3cfb-4f0d-a393-9abe29fdbb79"
                         },
                         new
                         {
-                            UserId = "dd3fc3fe-714f-4139-9ab0-348669e6b4f9",
-                            RoleId = "b68078a7-3d6f-4dfd-b815-559dd298c38e"
+                            UserId = "b133c02b-5b07-48ce-95d0-73cffd739232",
+                            RoleId = "611117af-184c-42f7-b829-eb34d4cd8cbe"
                         });
                 });
 
@@ -385,7 +401,9 @@ namespace _20230131_MVCIdentity.Migrations
                 {
                     b.HasOne("_20230131_MVCIdentity.Areas.Identity.Data.User", "User")
                         .WithMany("Articles")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -401,6 +419,21 @@ namespace _20230131_MVCIdentity.Migrations
                     b.HasOne("_20230131_MVCIdentity.Areas.Identity.Data.Category", null)
                         .WithMany()
                         .HasForeignKey("CategoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CategoryUser", b =>
+                {
+                    b.HasOne("_20230131_MVCIdentity.Areas.Identity.Data.Category", null)
+                        .WithMany()
+                        .HasForeignKey("CategoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("_20230131_MVCIdentity.Areas.Identity.Data.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

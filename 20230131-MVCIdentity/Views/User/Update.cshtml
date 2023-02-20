@@ -1,0 +1,52 @@
+﻿@model ArticleCreateVM
+
+@{
+    ViewData["Title"] = "Update";
+    var articleCategories = ViewBag.ArticleCategories as _20230131_MVCIdentity.Areas.Identity.Data.Article;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" integrity="sha512-ATeJm0ZmT8aXAmJkb0jmLQLPyEWpJyHbw+eR0gS/4FZ4N2x/YJ9Lpr+qI4QQIYslUpWTcRzCvkHJiLXLz4qscg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Bootstrap Makale Formu</title>
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-5">Makale Düzenleme Formu</h1>
+        <form asp-action="Update">
+            <input asp-for="Id" hidden />
+            <div class="mb-3">
+                <label asp-for="Title" class="form-label">Başlık</label>
+                <input type="text" input asp-for="Title" class="form-control" id="Title" placeholder="Başlık girin" rows="5" maxlength="120" required onkeyup="countCharacters(this, 'title-characters')" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="Content" class="form-label">İçerik</label>
+                <textarea class="form-control" input asp-for="Content" id="Content" placeholder="Makale içeriğini buraya yazın" rows="5" minlength="50" required onkeyup="countCharacters(this, 'content-characters')"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="kategori" class="form-label">Kategori</label>
+                <div class="form-check">
+                    @foreach (var item in Model.Categories)
+                    {
+                        <input class="form-check-input" name="ids" type="checkbox" @(articleCategories.Categories.Where(a=>a.Id ==item.Id).Any()?"checked":"") value="@item.Id" itemid="@item.Id" />
+                        @Html.DisplayFor(modelItem =>item.Name)
+                        <br />
+
+                    }
+
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</body>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+</html>

@@ -18,7 +18,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
+
+
 
 namespace _20230131_MVCIdentity.Areas.Identity.Pages.Account
 {
@@ -107,6 +108,9 @@ namespace _20230131_MVCIdentity.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Display(Name = "ImagePath")]
+            public string ImagePath { get; set; }
         }
 
 
@@ -115,9 +119,24 @@ namespace _20230131_MVCIdentity.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
-
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        [HttpPost]
+        public async Task<IActionResult> OnPostAsync(IFormFile formFile, string returnUrl = null)
         {
+            var users = await _userManager.GetUserAsync(User);
+            if (users != null && formFile != null)
+            {
+                var fileName = $"{users.Id}-{formFile.FileName}";
+                var filePath = Path.Combine(_hostingEnvironment.WebRootPath, "profile-photos", fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await formFile.CopyToAsync(stream);
+                }
+                users.FilePath = filePath;
+                await _userManager.UpdateAsync(users);
+            }
+
+
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
@@ -127,6 +146,7 @@ namespace _20230131_MVCIdentity.Areas.Identity.Pages.Account
                 user.LastName = Input.LastName;
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                user.FilePath = Input.ImagePath;
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
@@ -186,6 +206,11 @@ namespace _20230131_MVCIdentity.Areas.Identity.Pages.Account
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
             return (IUserEmailStore<User>)_userStore;
+        }
+
+        private class _hostingEnvironment
+        {
+            public static string WebRootPath { get; internal set; }
         }
     }
 }

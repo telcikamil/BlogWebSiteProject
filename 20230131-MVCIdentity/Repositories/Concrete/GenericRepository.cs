@@ -40,10 +40,10 @@ namespace _20230131_MVCIdentity.Repositories.Concrete
             return db.Set<T>();
         }
 
-        T IRepository<T>.GetById(int id)
-        {
-            return db.Set<T>().Find(id);
-        }
+        //T IRepository<T>.GetById(int id)
+        //{
+        //    return db.Set<T>().Find(id);
+        //}
 
         IEnumerable<T> IRepository<T>.GetWhere(Expression<Func<T, bool>> predicate)
         {

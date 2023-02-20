@@ -15,5 +15,10 @@ namespace _20230131_MVCIdentity.Repositories.Concrete
         {
             throw new NotImplementedException();
         }
+
+        public Category GetById(int id)
+        {
+            return db.Set<Category>().FirstOrDefault(x => x.Id == id);
+        }
     }
 }
