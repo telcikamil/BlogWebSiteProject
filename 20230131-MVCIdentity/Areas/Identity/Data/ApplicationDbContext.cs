@@ -5,17 +5,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace _20230131_MVCIdentity.Areas.Identity.Data;
 
-public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+public class ApplicationDbContext : IdentityDbContext<User>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
         
     }
-    public DbSet<ApplicationUser> applicationUsers { get; set; }
+    public DbSet<User> Users { get; set; }
     public DbSet<Article> articles { get; set; }
     public DbSet<Category> categories { get; set; }
-
+    public object Enrollments { get; internal set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -39,7 +39,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         string standardAppUserId = Guid.NewGuid().ToString();
         var hasher = new PasswordHasher<IdentityUser>();
 
-        ApplicationUser adminUser = new ApplicationUser()
+        User adminUser = new User()
         {
             Id= adminAppUserId,
             FirstName="Admin",
@@ -52,7 +52,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         };
         adminUser.PasswordHash = hasher.HashPassword(adminUser, "Admin123!");
 
-        ApplicationUser standardUser = new ApplicationUser()
+        User standardUser = new User()
         {
             Id = standardAppUserId,
             FirstName = "Standard",
@@ -65,8 +65,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         };
         standardUser.PasswordHash = hasher.HashPassword(standardUser, "Standard123!");
 
-        builder.Entity<ApplicationUser>().HasData(adminUser);
-        builder.Entity<ApplicationUser>().HasData(standardUser);
+        builder.Entity<User>().HasData(adminUser);
+        builder.Entity<User>().HasData(standardUser);
 
         IdentityUserRole<string> adminUserRole = new IdentityUserRole<string> { RoleId = adminRoleId, UserId = adminAppUserId };
         IdentityUserRole<string> standardUserRole = new IdentityUserRole<string> { RoleId = standardRoleId, UserId = standardAppUserId };

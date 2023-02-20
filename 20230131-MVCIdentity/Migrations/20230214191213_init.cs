@@ -55,7 +55,8 @@ namespace _20230131_MVCIdentity.Migrations
                 name: "categories",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -88,13 +89,14 @@ namespace _20230131_MVCIdentity.Migrations
                 name: "articles",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ViewCount = table.Column<int>(type: "int", nullable: false),
-                    ViewTime = table.Column<int>(type: "int", nullable: false),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    ViewCount = table.Column<int>(type: "int", nullable: true),
+                    ViewTime = table.Column<int>(type: "int", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -196,8 +198,8 @@ namespace _20230131_MVCIdentity.Migrations
                 name: "ArticleCategory",
                 columns: table => new
                 {
-                    ArticlesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CategoriesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    ArticlesId = table.Column<int>(type: "int", nullable: false),
+                    CategoriesId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -221,8 +223,8 @@ namespace _20230131_MVCIdentity.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "3dca1fe5-5e78-4c45-aee6-c56efa4688c1", "eaea8e32-b401-4f56-8d19-31272d95952f", "Admin", "ADMIN" },
-                    { "a21a5818-2918-4bb5-abbe-b39f92b36f96", "b1e19cea-d5a6-4a29-97d4-7b8bc908d52c", "Standard", "STANDARD" }
+                    { "081a2f71-ddde-488f-a554-e620a86cf619", "c894abc2-ba9d-4ee8-8282-1a29e8cd4803", "Admin", "ADMIN" },
+                    { "124357ae-7ff5-4369-ab0c-3c36b561128b", "f5c6a21f-1dad-4e9f-82cc-7338dc1b0617", "Standard", "STANDARD" }
                 });
 
             migrationBuilder.InsertData(
@@ -230,24 +232,24 @@ namespace _20230131_MVCIdentity.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FilePath", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "33659ef7-0dd4-4be4-baba-135bdd7966a6", 0, "0715823f-4586-445f-a3ab-695545825126", "admin@admin.com", true, null, "Admin", "Admin", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAELHgDtz1aRlg6ACVx9S8YEvzz3hnBjc3ZYXRVDsK08BnFDIZffRLdWs832y9DM0PNQ==", null, false, "deb0e120-d49c-42e1-8ed1-40885765fd13", false, "admin@admin.com" },
-                    { "5ee0ed20-ee4b-4bd7-8f4c-9b29c8489edf", 0, "e4056735-df73-48f7-973c-4a2f0938f2ea", "standard@standard.com", true, null, "Standard", "Standard", false, null, "STANDARD@STANDARD.COM", "STANDARD@STANDARD.COM", "AQAAAAEAACcQAAAAEOzTCS0fWXG+NJc+8gg+cUizP/ZXa0XnrR+QaAjHWqOQRit5A1xj2H88ufSoR3mrjA==", null, false, "0e2e6e8e-9272-44cf-8fe0-3cf1836d893f", false, "standard@standard.com" }
+                    { "b1952a48-ade0-4e28-af96-cac089df5ef4", 0, "054eb5a3-cf79-47e4-b3af-48df3c92a91b", "admin@admin.com", true, null, "Admin", "Admin", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAENE/xArxK6y8TOx1hdd/NOCp5qSPUkvLmtPwooMA4xP0dh/IyUY7bAQn2diSzCKY/Q==", null, false, "7c1e8c9f-9645-43a5-88ef-5776576afd62", false, "admin@admin.com" },
+                    { "f3e0a430-e705-483f-b57c-c648e9b6e40a", 0, "f71ce0e9-57b8-4e53-b0bb-508979678783", "standard@standard.com", true, null, "Standard", "Standard", false, null, "STANDARD@STANDARD.COM", "STANDARD@STANDARD.COM", "AQAAAAEAACcQAAAAEN2J/mOm0pLMoKVQs2LvGbIeLsHQsk8vUeucPbC4fSXOPlUhnVfkCw/4/Tw0b4biew==", null, false, "20ee77a2-4f1f-490c-a553-ff19c40a66f5", false, "standard@standard.com" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserClaims",
                 columns: new[] { "Id", "ClaimType", "ClaimValue", "UserId" },
-                values: new object[] { 1, "IsAdmin", "true", "33659ef7-0dd4-4be4-baba-135bdd7966a6" });
+                values: new object[] { 1, "IsAdmin", "true", "b1952a48-ade0-4e28-af96-cac089df5ef4" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "3dca1fe5-5e78-4c45-aee6-c56efa4688c1", "33659ef7-0dd4-4be4-baba-135bdd7966a6" });
+                values: new object[] { "081a2f71-ddde-488f-a554-e620a86cf619", "b1952a48-ade0-4e28-af96-cac089df5ef4" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "a21a5818-2918-4bb5-abbe-b39f92b36f96", "5ee0ed20-ee4b-4bd7-8f4c-9b29c8489edf" });
+                values: new object[] { "124357ae-7ff5-4369-ab0c-3c36b561128b", "f3e0a430-e705-483f-b57c-c648e9b6e40a" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ArticleCategory_CategoriesId",

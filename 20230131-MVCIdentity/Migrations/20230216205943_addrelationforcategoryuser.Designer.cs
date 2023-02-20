@@ -12,8 +12,8 @@ using _20230131_MVCIdentity.Areas.Identity.Data;
 namespace _20230131_MVCIdentity.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230202132637_init")]
-    partial class init
+    [Migration("20230216205943_addrelationforcategoryuser")]
+    partial class addrelationforcategoryuser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,7 +24,60 @@ namespace _20230131_MVCIdentity.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("_20230131_MVCIdentity.Areas.Identity.Data.ApplicationUser", b =>
+            modelBuilder.Entity("_20230131_MVCIdentity.Areas.Identity.Data.Article", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("ViewCount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ViewTime")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("articles");
+                });
+
+            modelBuilder.Entity("_20230131_MVCIdentity.Areas.Identity.Data.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("categories");
+                });
+
+            modelBuilder.Entity("_20230131_MVCIdentity.Areas.Identity.Data.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -104,9 +157,9 @@ namespace _20230131_MVCIdentity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "33659ef7-0dd4-4be4-baba-135bdd7966a6",
+                            Id = "1f58caf7-5645-4b81-bd15-be8d9c4c85fe",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0715823f-4586-445f-a3ab-695545825126",
+                            ConcurrencyStamp = "01fc71de-10e8-46f2-a688-8498d8c3b281",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
@@ -114,17 +167,17 @@ namespace _20230131_MVCIdentity.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAELHgDtz1aRlg6ACVx9S8YEvzz3hnBjc3ZYXRVDsK08BnFDIZffRLdWs832y9DM0PNQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENpVecixFfbGE8Bmygis13qU1KBjxWJn/bi3VPIz4W+poCzBTHuCMFlVKeUHvRkO9g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "deb0e120-d49c-42e1-8ed1-40885765fd13",
+                            SecurityStamp = "a8ac61c4-44d6-49cc-83dc-b1c1c9c19f6d",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         },
                         new
                         {
-                            Id = "5ee0ed20-ee4b-4bd7-8f4c-9b29c8489edf",
+                            Id = "b133c02b-5b07-48ce-95d0-73cffd739232",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e4056735-df73-48f7-973c-4a2f0938f2ea",
+                            ConcurrencyStamp = "f37c1ad4-6a12-431e-be9a-667d493ccbdb",
                             Email = "standard@standard.com",
                             EmailConfirmed = true,
                             FirstName = "Standard",
@@ -132,76 +185,42 @@ namespace _20230131_MVCIdentity.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "STANDARD@STANDARD.COM",
                             NormalizedUserName = "STANDARD@STANDARD.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOzTCS0fWXG+NJc+8gg+cUizP/ZXa0XnrR+QaAjHWqOQRit5A1xj2H88ufSoR3mrjA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOOYS2EYrfUhiVV2joQa/XcJUBzz9JFMnUikHv/rOU55zqcvFeK5AA0VY31J/QD0JQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0e2e6e8e-9272-44cf-8fe0-3cf1836d893f",
+                            SecurityStamp = "3ac1fe26-ba2b-49f1-8322-a5981efc5467",
                             TwoFactorEnabled = false,
                             UserName = "standard@standard.com"
                         });
                 });
 
-            modelBuilder.Entity("_20230131_MVCIdentity.Areas.Identity.Data.Article", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("ViewCount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ViewTime")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("articles");
-                });
-
-            modelBuilder.Entity("_20230131_MVCIdentity.Areas.Identity.Data.Category", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("categories");
-                });
-
             modelBuilder.Entity("ArticleCategory", b =>
                 {
-                    b.Property<Guid>("ArticlesId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("ArticlesId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("CategoriesId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("CategoriesId")
+                        .HasColumnType("int");
 
                     b.HasKey("ArticlesId", "CategoriesId");
 
                     b.HasIndex("CategoriesId");
 
                     b.ToTable("ArticleCategory");
+                });
+
+            modelBuilder.Entity("CategoryUser", b =>
+                {
+                    b.Property<int>("CategoriesId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("CategoriesId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("CategoryUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -233,15 +252,15 @@ namespace _20230131_MVCIdentity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3dca1fe5-5e78-4c45-aee6-c56efa4688c1",
-                            ConcurrencyStamp = "eaea8e32-b401-4f56-8d19-31272d95952f",
+                            Id = "4d0d0b7c-3cfb-4f0d-a393-9abe29fdbb79",
+                            ConcurrencyStamp = "beea6f3e-1354-49b8-889c-587748423705",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "a21a5818-2918-4bb5-abbe-b39f92b36f96",
-                            ConcurrencyStamp = "b1e19cea-d5a6-4a29-97d4-7b8bc908d52c",
+                            Id = "611117af-184c-42f7-b829-eb34d4cd8cbe",
+                            ConcurrencyStamp = "82f83dd2-3763-4ee7-a39b-910f75a33fe1",
                             Name = "Standard",
                             NormalizedName = "STANDARD"
                         });
@@ -302,7 +321,7 @@ namespace _20230131_MVCIdentity.Migrations
                             Id = 1,
                             ClaimType = "IsAdmin",
                             ClaimValue = "true",
-                            UserId = "33659ef7-0dd4-4be4-baba-135bdd7966a6"
+                            UserId = "1f58caf7-5645-4b81-bd15-be8d9c4c85fe"
                         });
                 });
 
@@ -347,13 +366,13 @@ namespace _20230131_MVCIdentity.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "33659ef7-0dd4-4be4-baba-135bdd7966a6",
-                            RoleId = "3dca1fe5-5e78-4c45-aee6-c56efa4688c1"
+                            UserId = "1f58caf7-5645-4b81-bd15-be8d9c4c85fe",
+                            RoleId = "4d0d0b7c-3cfb-4f0d-a393-9abe29fdbb79"
                         },
                         new
                         {
-                            UserId = "5ee0ed20-ee4b-4bd7-8f4c-9b29c8489edf",
-                            RoleId = "a21a5818-2918-4bb5-abbe-b39f92b36f96"
+                            UserId = "b133c02b-5b07-48ce-95d0-73cffd739232",
+                            RoleId = "611117af-184c-42f7-b829-eb34d4cd8cbe"
                         });
                 });
 
@@ -380,7 +399,7 @@ namespace _20230131_MVCIdentity.Migrations
 
             modelBuilder.Entity("_20230131_MVCIdentity.Areas.Identity.Data.Article", b =>
                 {
-                    b.HasOne("_20230131_MVCIdentity.Areas.Identity.Data.ApplicationUser", "User")
+                    b.HasOne("_20230131_MVCIdentity.Areas.Identity.Data.User", "User")
                         .WithMany("Articles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -404,6 +423,21 @@ namespace _20230131_MVCIdentity.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("CategoryUser", b =>
+                {
+                    b.HasOne("_20230131_MVCIdentity.Areas.Identity.Data.Category", null)
+                        .WithMany()
+                        .HasForeignKey("CategoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("_20230131_MVCIdentity.Areas.Identity.Data.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -415,7 +449,7 @@ namespace _20230131_MVCIdentity.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("_20230131_MVCIdentity.Areas.Identity.Data.ApplicationUser", null)
+                    b.HasOne("_20230131_MVCIdentity.Areas.Identity.Data.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -424,7 +458,7 @@ namespace _20230131_MVCIdentity.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("_20230131_MVCIdentity.Areas.Identity.Data.ApplicationUser", null)
+                    b.HasOne("_20230131_MVCIdentity.Areas.Identity.Data.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -439,7 +473,7 @@ namespace _20230131_MVCIdentity.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("_20230131_MVCIdentity.Areas.Identity.Data.ApplicationUser", null)
+                    b.HasOne("_20230131_MVCIdentity.Areas.Identity.Data.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -448,14 +482,14 @@ namespace _20230131_MVCIdentity.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("_20230131_MVCIdentity.Areas.Identity.Data.ApplicationUser", null)
+                    b.HasOne("_20230131_MVCIdentity.Areas.Identity.Data.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("_20230131_MVCIdentity.Areas.Identity.Data.ApplicationUser", b =>
+            modelBuilder.Entity("_20230131_MVCIdentity.Areas.Identity.Data.User", b =>
                 {
                     b.Navigation("Articles");
                 });
