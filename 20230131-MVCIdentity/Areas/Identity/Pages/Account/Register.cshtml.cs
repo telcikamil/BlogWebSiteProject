@@ -31,13 +31,15 @@ namespace _20230131_MVCIdentity.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<User> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
         public RegisterModel(
             UserManager<User> userManager,
             IUserStore<User> userStore,
             SignInManager<User> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IWebHostEnvironment webHostEnvironment)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -45,6 +47,7 @@ namespace _20230131_MVCIdentity.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            this.webHostEnvironment = webHostEnvironment;
         }
 
         /// <summary>
@@ -109,8 +112,7 @@ namespace _20230131_MVCIdentity.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
-            [Display(Name = "ImagePath")]
-            public string ImagePath { get; set; }
+            public IFormFile ImageFile { get; set; }
         }
 
 
@@ -119,7 +121,6 @@ namespace _20230131_MVCIdentity.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
-        [HttpPost]
         public async Task<IActionResult> OnPostAsync(IFormFile formFile, string returnUrl = null)
         {
             var users = await _userManager.GetUserAsync(User);
@@ -144,9 +145,25 @@ namespace _20230131_MVCIdentity.Areas.Identity.Pages.Account
                 var user = CreateUser();
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
+
+                if (Input.ImageFile !=null)
+                {
+                    string uniqueFileName = null;
+
+                    string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                    uniqueFileName = Guid.NewGuid().ToString() + "_" + Input.ImageFile.FileName;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        Input.ImageFile.CopyTo(fileStream);
+                    }
+                    // string file = Path.GetFileName(Request.Form.Files[0].FileName);
+                    user.FilePath = "/images/" + uniqueFileName;
+                }
+
+
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-                user.FilePath = Input.ImagePath;
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)

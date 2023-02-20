@@ -41,6 +41,11 @@ namespace _20230131_MVCIdentity.Controllers
             userIndexVM.FirstName = firstname;
             userIndexVM.LastName =user.LastName;
             userIndexVM.currentId = currentid;
+            userIndexVM.imagePath = user.FilePath;
+            userIndexVM.email = user.UserName;
+            userIndexVM.job = user.Job;
+            userIndexVM.Phone = user.PhoneNumber;
+            
             
 
             return View(userIndexVM);

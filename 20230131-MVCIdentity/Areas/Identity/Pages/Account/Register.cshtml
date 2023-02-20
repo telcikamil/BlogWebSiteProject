@@ -37,9 +37,9 @@
                             <label asp-for="Input.ConfirmPassword"></label>
                             <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                         </div>
-                        <div>
-                            <label for="formFile">Profile Photo:</label>
-                            <input type="file" id="formFile" name="formFile">
+                        <div class="form-group">
+                            <label asp-for="Input.ImageFile">Profile Photo:</label>
+                            <input type="file" asp-for="Input.ImageFile" class="form-control"/>
                         </div>
 
                     </div>
